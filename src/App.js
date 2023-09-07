@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import marketDataJSON from "./markets.json";
+import bell from "./bell.mp3";
 
 function App() {
   //User time
@@ -90,8 +91,23 @@ function App() {
   }, []);
 
   //Format colors (that indicate market status)
-
   const marketStatus = () => {};
+
+  //Play bell at NY open, once
+  const [hasPlayedBell, setHasPlayedBell] = useState(false);
+
+  useEffect(() => {
+    if (!hasPlayedBell && decimalTime === 13.5 + timezone) {
+      new Audio(bell).play();
+      setHasPlayedBell(true);
+    }
+
+    if (decimalTime !== 13.5) {
+      setHasPlayedBell(false);
+    }
+  });
+
+  console.log(decimalTime);
 
   return (
     <div className="flex flex-col w-screen h-screen">
@@ -155,6 +171,11 @@ function App() {
             })}
           </div>
         </div>
+
+        {/* NYSE Market Open Bell */}
+        {decimalTime === 13.3 + timezone && (
+          <audio src={""} autoplay auto="true" />
+        )}
 
         <div className="flex flex-wrap gap-9 w-full justify-center">
           <div className="flex gap-3">
