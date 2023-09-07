@@ -1,0 +1,25 @@
+[
+  {
+    "market": "NYSE",
+    "preMarket": 9,
+    "preMarketClose": 13.5,
+    "marketOpen": 13.5,
+    "marketClose": 20,
+    "postMarketClose": 0
+  },
+  {
+    "market": "LSE",
+    "preMarket": 4.083,
+    "preMarketClose": 6.833,
+    "marketOpen": 7,
+    "marketClose": 15.5,
+    "postMarketClose": 16.25
+  },
+  {
+    "market": "JPX",
+    "marketOpen": 0,
+    "marketClose": 2,
+    "secondMarketOpen": 3.5,
+    "secondMarketClose": 6
+  }
+]
