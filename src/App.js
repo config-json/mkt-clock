@@ -23,27 +23,32 @@ function App() {
     userTime.getUTCHours() +
     (userTime.getMinutes() - userTime.getUTCMinutes()) / 60;
 
-  //Timezone hours and minutes (displayed to the user)
-  const timezoneHours = userTime.getHours() - userTime.getUTCHours();
+  var timezoneHours = userTime.getHours() - userTime.getUTCHours();
   const timezoneMinutes = Math.abs(
     userTime.getMinutes() - userTime.getUTCMinutes()
   );
 
   //Format the displayed timezone
   const formattedTimezone = () => {
-    if (timezone > 0 && timezoneMinutes !== 0) {
+    if (timezoneHours < 12 || timezoneHours > 12) {
+      timezoneHours = userTime.getHours() + 24 - userTime.getUTCHours();
+    }
+
+    if (timezoneHours > 0 && timezoneMinutes !== 0) {
       return `+${timezoneHours}:${timezoneMinutes}`;
     }
 
-    if (timezone > 0 && timezoneMinutes === 0) {
+    if (timezoneHours > 0 && timezoneMinutes === 0) {
       return `+${timezoneHours}`;
     }
 
-    if (timezone < 0 && timezoneMinutes !== 0) {
+    if (timezoneHours < 0 && timezoneMinutes !== 0) {
       return `${timezoneHours}:${timezoneMinutes}`;
     }
 
-    return timezoneHours;
+    if (timezoneHours < 0 && timezoneMinutes === 0) {
+      return timezoneHours;
+    }
   };
 
   const convertTime = (time) => {
