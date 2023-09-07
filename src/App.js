@@ -14,7 +14,13 @@ function App() {
   }, []);
 
   //Timezone and convertTime
-  const timezone = userTime.getHours() - userTime.getUTCHours();
+  const timezone =
+    userTime.getHours() -
+    userTime.getUTCHours() +
+    (userTime.getMinutes() - userTime.getUTCMinutes()) / 60;
+
+  const timezoneHours = userTime.getHours() - userTime.getUTCHours();
+  const timezoneMinutes = userTime.getMinutes() - userTime.getUTCMinutes();
 
   const convertTime = (time) => {
     //Get minutes (if any) and add them up
@@ -70,10 +76,14 @@ function App() {
               <p className="text-sm">
                 (UTC
                 {timezone === 0
-                  ? "UTC"
-                  : timezone > 0
-                  ? `+${timezone}`
-                  : timezone}
+                  ? ""
+                  : timezone > 0 && timezoneMinutes > 0
+                  ? `+${timezoneHours}:${timezoneMinutes}`
+                  : timezone > 0 && timezoneMinutes === 0
+                  ? `+${timezoneHours}`
+                  : timezone < 0 && timezoneMinutes > 0
+                  ? `${timezoneHours}:${timezoneMinutes}`
+                  : timezoneHours}
                 )
               </p>
             </div>
