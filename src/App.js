@@ -4,6 +4,7 @@ function App() {
   //User time
   const [userTime, setUserTime] = useState(new Date());
 
+  //Update user time every second
   useEffect(() => {
     const interval = setInterval(() => {
       setUserTime(new Date());
@@ -12,9 +13,35 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  //Timezone and convertTime
   const timezone = userTime.getHours() - userTime.getUTCHours();
 
-  const newYork = "9:30";
+  const convertTime = (time) => {
+    //Get minutes (if any) and add them up
+    const timeMinutes = (time % 1) * 60;
+    const timezoneMinutes = (timezone % 1) * 60;
+    let totalMinutes = timeMinutes + timezoneMinutes;
+    let extraHours = 0;
+
+    //If totalMinutes added is 60 make a new hour
+    if (totalMinutes >= 60) {
+      totalMinutes = totalMinutes % 60;
+      extraHours = Math.floor(totalMinutes / 60);
+    }
+
+    const formattedMinutes =
+      totalMinutes < 10 ? `0${totalMinutes}` : totalMinutes;
+
+    //Return HH:MM time
+    return `${
+      Math.floor(time) + Math.floor(timezone) + extraHours
+    }:${formattedMinutes}`;
+  };
+
+  //Times in UTC for easier conversion
+  const newYorkOpen = 13.5;
+  const londonOpen = 7;
+  const tokyoOpen = 0;
 
   return (
     <div className="flex flex-col w-screen h-screen">
@@ -40,22 +67,30 @@ function App() {
             </h2>
             <div className="flex gap-3 items-center">
               <h3 className="text-xl">Current Time</h3>
-              <p className="text-sm">(UTC+{timezone})</p>
+              <p className="text-sm">
+                (UTC
+                {timezone === 0
+                  ? "UTC"
+                  : timezone > 0
+                  ? `+${timezone}`
+                  : timezone}
+                )
+              </p>
             </div>
           </div>
 
           <div className="flex flex-col items-center">
-            <h2 className="text-5xl">16:30</h2>
+            <h2 className="text-5xl">{convertTime(newYorkOpen)}</h2>
             <h3 className="text-xl">NYSE</h3>
           </div>
 
           <div className="flex flex-col items-center">
-            <h2 className="text-5xl">10:30</h2>
+            <h2 className="text-5xl">{convertTime(londonOpen)}</h2>
             <h3 className="text-xl">LSE</h3>
           </div>
 
           <div className="flex flex-col items-center">
-            <h2 className="text-5xl">03:00</h2>
+            <h2 className="text-5xl">{convertTime(tokyoOpen)}</h2>
             <h3 className="text-xl">JSX</h3>
           </div>
         </div>
