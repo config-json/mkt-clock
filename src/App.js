@@ -89,9 +89,6 @@ function App() {
     }
   }, []);
 
-  //Format colors (that indicate market status)
-  const marketStatus = () => {};
-
   //Play bell at NY open, once
   const [hasPlayedBell, setHasPlayedBell] = useState(false);
   const [isSoundEnabled, setIsSoundEnabled] = useState(false);
@@ -194,7 +191,7 @@ function App() {
                     dayOfWeek === 6 || dayOfWeek === 0
                       ? "text-grey"
                       : decimalTime >= convertTime(item.preMarket) &&
-                        decimalTime < convertTime(item.marketOpen)
+                        decimalTime < convertTime(item.preMarketClose)
                       ? "text-yellow"
                       : decimalTime >= convertTime(item.marketOpen) &&
                         decimalTime < convertTime(item.marketClose)
