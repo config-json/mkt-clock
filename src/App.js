@@ -29,11 +29,21 @@ function App() {
 
   //Format the displayed timezone
   const formattedTimezone = () => {
-    if (timezone > 12 && userTime.getUTCHours() < userTime.getHours()) {
+    // Case: UTC is one day ahead of local
+    if (
+      userTime.getUTCHours() < userTime.getHours() &&
+      (userTime.getUTCDay() > userTime.getDay() ||
+        userTime.getUTCMonth() > userTime.getMonth())
+    ) {
       timezoneHours = userTime.getHours() - 24 - userTime.getUTCHours();
     }
 
-    if (timezone > 12 && userTime.getUTCHours() > userTime.getHours()) {
+    // Case: UTC is one day behind local
+    if (
+      userTime.getUTCHours() > userTime.getHours() &&
+      (userTime.getUTCDay() < userTime.getDay() ||
+        userTime.getUTCMonth() < userTime.getMonth())
+    ) {
       timezoneHours = userTime.getHours() + 24 - userTime.getUTCHours();
     }
 
@@ -111,7 +121,7 @@ function App() {
       setHasPlayedBell(true);
     }
 
-    if (decimalTime !== 13.5) {
+    if (decimalTime !== 13.5 + timezone) {
       setHasPlayedBell(false);
     }
   });
