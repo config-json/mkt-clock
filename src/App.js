@@ -30,7 +30,7 @@ function App() {
 
   //Format the displayed timezone
   const formattedTimezone = () => {
-    if (timezoneHours < 12 || timezoneHours > 12) {
+    if (timezone > 12 || timezone < -12) {
       timezoneHours = userTime.getHours() + 24 - userTime.getUTCHours();
     }
 
@@ -118,7 +118,7 @@ function App() {
         </div>
         <div className="flex gap-9 items-center">
           <div className="flex gap-6">
-            <a href="https://twitter.com/mktclock" target="_blank">
+            <a href="https://twitter.com/mktsuite" target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
