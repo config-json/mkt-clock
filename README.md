@@ -1,3 +1,7 @@
-# MktClock Docs
+# MktClock
 
-This small project is intended to be a tool that displays at what time (locally) some of the most importnat financial exchanges open, while also showing their status (open, closed, pre-market, post-market). For now, NYSE - New York Stock Exchange, LSE - London Stock Exchange and JSX - Japan Stock Exchange are planned to be released.
+See at what time financial markets around the world (New York Stock Exchakge, London Stock Exchange and Japan Stock Exchange) open for you, as well as their current statuses -- closed, pre-market, open, post-market.
+
+MktClock is also part of a greater set of everyday tools for traders: MktSuite.
+
+**For inquiries contact [@mktsuite](https://twitter.com/mktsuite) on Twitter**
