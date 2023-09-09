@@ -4,13 +4,16 @@ import marketDataJSON from "./markets.json";
 function App() {
   //User time
   const [userTime, setUserTime] = useState(new Date());
-  let decimalTime = userTime.getHours() + userTime.getMinutes() / 60;
-  let dayOfWeek = userTime.getUTCDay();
+  const [decimalTime, setDecimalTime] = useState(
+    userTime.getHours() + userTime.getMinutes() / 60
+  );
+  const dayOfWeek = userTime.getUTCDay();
 
   //Update user time every second
   useEffect(() => {
     const intervalId = setInterval(() => {
       setUserTime(new Date());
+      setDecimalTime(userTime.getHours() + userTime.getMinutes() / 60);
     }, 1000);
 
     return () => clearInterval(intervalId);
@@ -22,7 +25,9 @@ function App() {
     userTime.getUTCHours() +
     (userTime.getMinutes() - userTime.getUTCMinutes()) / 60;
 
-  var timezoneHours = userTime.getHours() - userTime.getUTCHours();
+  const [timezoneHours, setTimezoneHours] = useState(
+    userTime.getHours() - userTime.getUTCHours()
+  );
   const timezoneMinutes = Math.abs(
     userTime.getMinutes() - userTime.getUTCMinutes()
   );
@@ -35,7 +40,7 @@ function App() {
       (userTime.getUTCDay() > userTime.getDay() ||
         userTime.getUTCMonth() > userTime.getMonth())
     ) {
-      timezoneHours = userTime.getHours() - 24 - userTime.getUTCHours();
+      setTimezoneHours(userTime.getHours() - 24 - userTime.getUTCHours());
     }
 
     // Case: UTC is one day behind local
@@ -44,7 +49,7 @@ function App() {
       (userTime.getUTCDay() < userTime.getDay() ||
         userTime.getUTCMonth() < userTime.getMonth())
     ) {
-      timezoneHours = userTime.getHours() + 24 - userTime.getUTCHours();
+      setTimezoneHours(userTime.getHours() + 24 - userTime.getUTCHours());
     }
 
     if (timezoneHours > 0 && timezoneMinutes !== 0) {
@@ -116,7 +121,12 @@ function App() {
   const [isSoundEnabled, setIsSoundEnabled] = useState(false);
 
   useEffect(() => {
-    if (!hasPlayedBell && isSoundEnabled && decimalTime === 13.5 + timezone) {
+    if (
+      !hasPlayedBell &&
+      isSoundEnabled &&
+      decimalTime === 13.5 + timezone &&
+      (dayOfWeek !== 0 || dayOfWeek !== 6)
+    ) {
       new Audio("bell.mp3").play();
       setHasPlayedBell(true);
     }
