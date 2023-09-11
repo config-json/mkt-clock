@@ -2,14 +2,12 @@ import { useState, useEffect } from "react";
 import marketDataJSON from "./markets.json";
 
 function App() {
-  //User time
   const [userTime, setUserTime] = useState(new Date());
   const [decimalTime, setDecimalTime] = useState(
     userTime.getHours() + userTime.getMinutes() / 60
   );
   const dayOfWeek = userTime.getUTCDay();
 
-  //Update user time every second
   useEffect(() => {
     const intervalId = setInterval(() => {
       setUserTime(new Date());
@@ -75,13 +73,11 @@ function App() {
   };
 
   const displayConvertedTime = (time) => {
-    //Get minutes (if any) and add them up
     const timeMinutes = (time % 1) * 60;
 
     let totalMinutes = timeMinutes + timezoneMinutes;
     let extraHours = 0;
 
-    //If totalMinutes added is 60 make a new hour
     if (totalMinutes >= 60) {
       totalMinutes = totalMinutes % 60;
       extraHours = Math.floor(totalMinutes / 60);
@@ -100,7 +96,6 @@ function App() {
     const formattedMinutes =
       totalMinutes < 10 ? `0${totalMinutes}` : totalMinutes;
 
-    //Return HH:MM time
     return `${hours + extraHours}:${formattedMinutes}`;
   };
 
